@@ -1,0 +1,69 @@
+{
+  "name": "mdv-payments-module",
+  "version": "0.1.0",
+  "private": false,
+  "description": "Reusable React Native RevenueCat payments module for premium upgrades, credit packs, paywalls, and entitlement checks.",
+  "license": "UNLICENSED",
+  "main": "index.ts",
+  "types": "index.ts",
+  "react-native": "index.ts",
+  "files": [
+    "adapters",
+    "components",
+    "config",
+    "hooks",
+    "providers",
+    "services",
+    "index.ts",
+    "README.md"
+  ],
+  "exports": {
+    ".": {
+      "react-native": "./index.ts",
+      "types": "./index.ts",
+      "default": "./index.ts"
+    },
+    "./adapters": {
+      "react-native": "./adapters/createCreditGrantAdapter.ts",
+      "types": "./adapters/createCreditGrantAdapter.ts",
+      "default": "./adapters/createCreditGrantAdapter.ts"
+    },
+    "./components": {
+      "react-native": "./components/index.ts",
+      "types": "./components/index.ts",
+      "default": "./components/index.ts"
+    },
+    "./config": {
+      "react-native": "./config/index.ts",
+      "types": "./config/index.ts",
+      "default": "./config/index.ts"
+    },
+    "./hooks": {
+      "react-native": "./hooks/index.ts",
+      "types": "./hooks/index.ts",
+      "default": "./hooks/index.ts"
+    },
+    "./providers": {
+      "react-native": "./providers/PaymentsProvider.tsx",
+      "types": "./providers/PaymentsProvider.tsx",
+      "default": "./providers/PaymentsProvider.tsx"
+    },
+    "./services": {
+      "react-native": "./services/revenueCatClient.ts",
+      "types": "./services/revenueCatClient.ts",
+      "default": "./services/revenueCatClient.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-native": ">=0.72",
+    "react-native-config": ">=1.5",
+    "react-native-purchases": ">=9"
+  },
+  "peerDependenciesMeta": {
+    "react-native-config": {
+      "optional": true
+    }
+  }
+}
