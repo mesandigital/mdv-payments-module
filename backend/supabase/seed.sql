@@ -1,0 +1,3 @@
+-- Optional seed data for mdv-payments-module.
+-- No default seed rows are required for credits.
+-- If you want to test balances locally, insert a known auth.users.id manually and then add a matching credit_balances row.

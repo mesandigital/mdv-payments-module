@@ -11,4 +11,3 @@ export * from './hooks/usePayments';
 export * from './hooks/usePremiumStatus';
 export * from './hooks/usePurchaseProduct';
 export * from './providers/PaymentsProvider';
-export * from './services/revenueCatClient';

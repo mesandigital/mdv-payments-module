@@ -15,7 +15,8 @@
     "providers",
     "services",
     "index.ts",
-    "README.md"
+    "README.md",
+    "backend"
   ],
   "exports": {
     ".": {
@@ -53,7 +54,10 @@
       "types": "./services/revenueCatClient.ts",
       "default": "./services/revenueCatClient.ts"
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./backend/supabase/schema.sql": "./backend/supabase/schema.sql",
+    "./backend/supabase/rls.sql": "./backend/supabase/rls.sql",
+    "./backend/supabase/README.md": "./backend/supabase/README.md"
   },
   "peerDependencies": {
     "react": ">=18",
