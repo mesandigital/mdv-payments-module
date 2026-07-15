@@ -1,6 +1,6 @@
 {
   "name": "mdv-payments-module",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": false,
   "description": "Reusable React Native RevenueCat payments module for premium upgrades, credit packs, paywalls, and entitlement checks.",
   "license": "UNLICENSED",
