@@ -42,6 +42,10 @@ const initialState: PaymentsState = {
   isPremium: false,
 };
 
+const toError = (value: unknown) => (
+  value instanceof Error ? value : new Error(String(value))
+);
+
 export const PaymentsProvider = ({ config, children }: PaymentsProviderProps) => {
   const [state, setState] = useState<PaymentsState>(initialState);
 
@@ -51,25 +55,32 @@ export const PaymentsProvider = ({ config, children }: PaymentsProviderProps) =>
     try {
       await configureRevenueCat(config);
 
-      const [offering, customerInfo] = await Promise.all([
-        getCurrentOffering(),
-        getCustomerInfo(),
-      ]);
+      const customerInfo = await getCustomerInfo();
+      let offering = null;
+      let offeringError: Error | null = null;
+
+      try {
+        offering = await getCurrentOffering();
+      } catch (caughtError) {
+        offeringError = toError(caughtError);
+        console.warn('[PaymentsProvider] RevenueCat offerings unavailable:', offeringError.message);
+      }
 
       setState({
         isConfigured: true,
         loading: false,
-        error: null,
+        error: offeringError,
         offering,
         packages: offering?.availablePackages ?? [],
         customerInfo,
         isPremium: isPremiumCustomer(customerInfo, config),
       });
-    } catch (error) {
+    } catch (caughtError) {
+      const normalizedError = toError(caughtError);
       setState((current) => ({
         ...current,
         loading: false,
-        error: error instanceof Error ? error : new Error(String(error)),
+        error: normalizedError,
       }));
     }
   }, [config]);
@@ -93,12 +104,13 @@ export const PaymentsProvider = ({ config, children }: PaymentsProviderProps) =>
         }));
 
         return result;
-      } catch (error: any) {
-        if (!error?.userCancelled) {
+      } catch (caughtError: any) {
+        if (!caughtError?.userCancelled) {
+          const normalizedError = toError(caughtError);
           setState((current) => ({
             ...current,
             loading: false,
-            error: error instanceof Error ? error : new Error(String(error)),
+            error: normalizedError,
           }));
         } else {
           setState((current) => ({ ...current, loading: false }));
@@ -171,13 +183,14 @@ export const PaymentsProvider = ({ config, children }: PaymentsProviderProps) =>
       }));
 
       return customerInfo;
-    } catch (error) {
+    } catch (caughtError) {
+      const normalizedError = toError(caughtError);
       setState((current) => ({
         ...current,
         loading: false,
-        error: error instanceof Error ? error : new Error(String(error)),
+        error: normalizedError,
       }));
-      throw error;
+      throw caughtError;
     }
   }, [config]);
 

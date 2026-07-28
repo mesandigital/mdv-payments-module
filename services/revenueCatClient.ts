@@ -10,6 +10,7 @@ import type {
 
 let configuredKey: string | null = null;
 let configuredUserId: string | null | undefined;
+let lastLoggedConfigSignature: string | null = null;
 
 const getApiKey = (config: PaymentsConfig) => {
   const platformKeys = config.revenueCatKeys[config.environment];
@@ -27,6 +28,15 @@ const getApiKey = (config: PaymentsConfig) => {
 export const configureRevenueCat = async (config: PaymentsConfig) => {
   const apiKey = getApiKey(config);
   const appUserId = config.appUserId ?? null;
+  const configSignature = `${config.environment}:${Platform.OS}:${apiKey}`;
+
+  if (lastLoggedConfigSignature !== configSignature) {
+    const keyPreview = apiKey.length > 8 ? `${apiKey.slice(0, 8)}…` : apiKey;
+    console.log(
+      `[RevenueCat] environment=${config.environment} platform=${Platform.OS} key=${keyPreview} user=${appUserId ?? 'anonymous'}`,
+    );
+    lastLoggedConfigSignature = configSignature;
+  }
 
   if (configuredKey === apiKey && configuredUserId === appUserId) {
     return;
